@@ -1,0 +1,1 @@
+LD_LIBRARY_PATH=~/rendu/PSU/PSU_2015_philo/ && export LD_LIBRARY_PATH
