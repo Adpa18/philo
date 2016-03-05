@@ -5,7 +5,7 @@
 ** Login	wery_a
 **
 ** Started on	Mon Feb 29 14:43:09 2016 Adrien WERY
-** Last update	Sat Mar 05 21:53:19 2016 Nicolas Constanty
+** Last update	Sat Mar 05 22:45:39 2016 Adrien WERY
 */
 
 #ifndef PHILO_H_
@@ -41,8 +41,8 @@ typedef             struct s_philo
     pthread_t       thread;
     size_t          rice;
     bool            chopstick;
-    bool						active;
-    size_t					id;
+    bool			active;
+    size_t			id;
 }                   t_philo;
 
 bool		eat(t_philo *ph, t_philo *ph_right);

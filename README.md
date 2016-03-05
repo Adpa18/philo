@@ -1,1 +1,1 @@
-LD_LIBRARY_PATH=~/rendu/PSU/PSU_2015_philo/ && export LD_LIBRARY_PATH
+LD_PRELOAD=./libriceferee.so ./philo -p [numbers of philosophers] -e [max eat occurence]

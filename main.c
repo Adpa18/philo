@@ -5,7 +5,7 @@
 ** Login	wery_a
 **
 ** Started on	Mon Feb 29 14:51:28 2016 Adrien WERY
-** Last update	Sat Mar 05 21:56:05 2016 Nicolas Constanty
+** Last update	Sat Mar 05 22:48:08 2016 Adrien WERY
 */
 
 #include <stdio.h>
@@ -44,10 +44,8 @@ int		main(int ac, char **av)
 
   R_CUSTOM(!getArgs(&nb, &max, av, ac), printf(USAGE));
   RCFStartup(ac, av);
-  if (!(ph = malloc(sizeof(t_philo) * nb + 1)))
-    return (1);
-  if (!(mutexes = malloc(sizeof(pthread_mutex_t) * nb + 1)))
-    return (1);
+  R_CUSTOM(!(ph = malloc(sizeof(t_philo) * nb + 1)), 1);
+  R_CUSTOM(!(mutexes = malloc(sizeof(pthread_mutex_t) * nb + 1)), 1);
   initPh(nb, max);
   check_thread:
   i = 0;
@@ -55,7 +53,7 @@ int		main(int ac, char **av)
   {
     if (ph[i].active == true)
     {
-      usleep(200);
+      sleep(1);
       goto check_thread;
     }
     ++i;
