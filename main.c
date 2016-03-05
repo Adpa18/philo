@@ -5,15 +5,10 @@
 ** Login	wery_a
 **
 ** Started on	Sat Mar 05 23:28:35 2016 Adrien WERY
-** Last update	Sat Mar 05 23:29:12 2016 Adrien WERY
+** Last update	Sun Mar 06 00:06:46 2016 Adrien WERY
 */
 
 #include "philo.h"
-
-t_philo		*ph = NULL;
-pthread_mutex_t	*mutexes;
-size_t		nb = 0;
-size_t		max = 0;
 
 bool		getArgs(size_t *p, size_t *e, char **av, int ac)
 {
@@ -32,18 +27,21 @@ bool		getArgs(size_t *p, size_t *e, char **av, int ac)
       return (false);
     i += 2;
   }
-  if (!p || !e)
+  if (*p < 1 || *e < 1)
     return (false);
   return (true);
 }
 
 int		main(int ac, char **av)
 {
+  t_philo		*ph;
+  size_t		nb;
+  size_t		max;
+
   R_CUSTOM(!getArgs(&nb, &max, av, ac), printf(USAGE));
   RCFStartup(ac, av);
   R_CUSTOM(!(ph = malloc(sizeof(t_philo) * nb + 1)), 1);
-  R_CUSTOM(!(mutexes = malloc(sizeof(pthread_mutex_t) * nb + 1)), 1);
-  initPh(nb, max);
+  initPh(ph, nb, max);
   free(ph);
   RCFCleanup();
   return (0);

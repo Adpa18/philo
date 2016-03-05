@@ -5,7 +5,7 @@
 ** Login	wery_a
 **
 ** Started on	Mon Feb 29 14:43:09 2016 Adrien WERY
-** Last update	Sat Mar 05 23:31:21 2016 Nicolas Constanty
+** Last update	Sun Mar 06 00:06:30 2016 Adrien WERY
 */
 
 #ifndef PHILO_H_
@@ -31,15 +31,12 @@ typedef enum { false, true } bool;
 typedef             struct s_philo
 {
     pthread_t       thread;
+    pthread_mutex_t mutex;
     size_t          rice;
     bool            chopstick;
-    size_t			    id;
+    void            *next;
 }                   t_philo;
 
-bool		eat(t_philo *ph, t_philo *ph_right);
-bool		think(t_philo *ph, t_philo *ph_right);
-bool		getArgs(size_t *p, size_t *e, char **av, int ac);
-void		*work(void *data);
-bool		initPh(size_t nb, size_t max);
+bool		initPh(t_philo *ph, size_t nb, size_t max);
 
 #endif /* !PHILO_H_ */
