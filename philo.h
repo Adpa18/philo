@@ -5,7 +5,7 @@
 ** Login	wery_a
 **
 ** Started on	Mon Feb 29 14:43:09 2016 Adrien WERY
-** Last update	Sat Mar 05 20:30:12 2016 Nicolas Constanty
+** Last update	Sat Mar 05 20:50:58 2016 Nicolas Constanty
 */
 
 #ifndef PHILO_H_
@@ -39,7 +39,7 @@ enum state
 typedef             struct s_philo
 {
     pthread_t       thread;
-    pthread_mutex_t mutex;
+    // pthread_mutex_t mutex;
     enum state      status;
     size_t          rice;
     bool            chopstick;

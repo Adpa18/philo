@@ -5,33 +5,44 @@
 ** Login	wery_a
 **
 ** Started on	Mon Feb 29 14:51:28 2016 Adrien WERY
-** Last update	Sat Mar 05 20:42:34 2016 Nicolas Constanty
+** Last update	Sat Mar 05 21:07:00 2016 Nicolas Constanty
 */
 
 #include <stdio.h>
 #include "philo.h"
 
 t_philo *ph = NULL;
+pthread_mutex_t *mutexes;
 size_t  nb = 0;
 size_t  max = 0;
 
 bool    eat(t_philo *ph, t_philo *ph_right)
 {
-  (void)ph_right;
-  // if (!(ph->chopstick && ph_right->chopstick))
-  //   return (false);
+  if (!(ph->chopstick && ph_right->chopstick))
+    return (false);
   ph->status = EAT;
   lphilo_eat();
   ph->chopstick = false;
-  lphilo_take_chopstick(&ph->mutex);
-  // ph_right->chopstick = false;
-  // lphilo_take_chopstick(&ph_right->mutex);
+  pthread_mutex_lock(&mutexes[ph->id]);
+  lphilo_take_chopstick(&mutexes[ph->id]);
+
+  ph_right->chopstick = false;
+  pthread_mutex_lock(&mutexes[ph_right->id]);
+  lphilo_take_chopstick(&mutexes[ph_right->id]);
+
   usleep(TIME_EAT);
-  lphilo_release_chopstick(&ph->mutex);
+  lphilo_release_chopstick(&mutexes[ph->id]);
+  pthread_mutex_unlock(&mutexes[ph->id]);
   ph->chopstick = true;
-  // lphilo_release_chopstick(&ph_right->mutex);
-  // ph_right->chopstick = true;
+
+  lphilo_release_chopstick(&mutexes[ph_right->id]);
+  pthread_mutex_unlock(&mutexes[ph_right->id]);
+  ph_right->chopstick = true;
   --ph->rice;
+
+  ph->status = REST;
+  lphilo_sleep();
+  usleep(TIME_EAT);
   return (true);
 }
 
@@ -46,19 +57,23 @@ bool    think(t_philo *ph, t_philo *ph_right)
   if (l)
   {
     ph->chopstick = false;
-    lphilo_take_chopstick(&ph->mutex);
+    pthread_mutex_lock(&mutexes[ph->id]);
+    lphilo_take_chopstick(&mutexes[ph->id]);
     lphilo_think();
     usleep(TIME_THINK);
-    lphilo_release_chopstick(&ph->mutex);
+    lphilo_release_chopstick(&mutexes[ph->id]);
+    pthread_mutex_unlock(&mutexes[ph->id]);
     ph->chopstick = true;
   }
   else
   {
     ph_right->chopstick = false;
-    lphilo_take_chopstick(&ph_right->mutex);
+    pthread_mutex_lock(&mutexes[ph_right->id]);
+    lphilo_take_chopstick(&mutexes[ph_right->id]);
     lphilo_think();
     usleep(TIME_THINK);
-    lphilo_release_chopstick(&ph_right->mutex);
+    lphilo_release_chopstick(&mutexes[ph_right->id]);
+    pthread_mutex_unlock(&mutexes[ph_right->id]);
     ph_right->chopstick = true;
   }
   return (true);
@@ -106,10 +121,8 @@ void    *work(void *data)
     id = 0;
   while (philo->rice)
   {
-    // think(philo, &ph[id]);
-    eat(philo, &ph[id]);
-      // if (!think(philo))
-      //   rest(philo);
+    if (!eat(philo, &ph[id]))
+      think(philo, &ph[id]);
   }
   philo->active = false;
   return (NULL);
@@ -133,7 +146,7 @@ bool    initPh(size_t nb, size_t max)
   }
   i = 0;
   while (i < nb)
-    pthread_mutex_init(&ph[i++].mutex, NULL);
+    pthread_mutex_init(&mutexes[i++], NULL);
   i = 0;
   while (i < nb)
   {
@@ -154,6 +167,8 @@ int     main(int ac, char **av)
   R_CUSTOM(!getArgs(&nb, &max, av, ac), printf(USAGE));
   RCFStartup(ac, av);
   if (!(ph = malloc(sizeof(t_philo) * nb + 1)))
+    return (1);
+  if (!(mutexes = malloc(sizeof(pthread_mutex_t) * nb + 1)))
     return (1);
   initPh(nb, max);
   check_thread:
