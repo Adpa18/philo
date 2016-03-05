@@ -5,60 +5,75 @@
 ** Login	wery_a
 **
 ** Started on	Mon Feb 29 14:51:28 2016 Adrien WERY
-** Last update	Sat Mar 05 18:17:28 2016 Nicolas Constanty
+** Last update	Sat Mar 05 20:42:34 2016 Nicolas Constanty
 */
 
 #include <stdio.h>
 #include "philo.h"
 
 t_philo *ph = NULL;
-int  nb = 0;
-int  max = 0;
+size_t  nb = 0;
+size_t  max = 0;
 
-bool    eat(size_t id)
+bool    eat(t_philo *ph, t_philo *ph_right)
 {
-  if (!(ph[id].chopstick && ph[(id + 1) % nb].chopstick))
-    return (false);
-  ph[id].status = EAT;
-  ph[id].chopstick = false;
-  ph[(id + 1) % nb].chopstick = false;
+  (void)ph_right;
+  // if (!(ph->chopstick && ph_right->chopstick))
+  //   return (false);
+  ph->status = EAT;
   lphilo_eat();
-  lphilo_take_chopstick(&ph[id].mutex);
-  lphilo_take_chopstick(&ph[(id + 1) % nb].mutex);
-  sleep(TIME_EAT);
-  lphilo_release_chopstick(&ph[id].mutex);
-  lphilo_release_chopstick(&ph[(id + 1) % nb].mutex);
-  ph[id].chopstick = true;
-  ph[(id + 1) % nb].chopstick = true;
-  --ph[id].rice;
+  ph->chopstick = false;
+  lphilo_take_chopstick(&ph->mutex);
+  // ph_right->chopstick = false;
+  // lphilo_take_chopstick(&ph_right->mutex);
+  usleep(TIME_EAT);
+  lphilo_release_chopstick(&ph->mutex);
+  ph->chopstick = true;
+  // lphilo_release_chopstick(&ph_right->mutex);
+  // ph_right->chopstick = true;
+  --ph->rice;
   return (true);
 }
 
-bool    think(size_t id)
+bool    think(t_philo *ph, t_philo *ph_right)
 {
-  if (!(ph[id].chopstick || ph[(id + 1) % nb].chopstick))
+  bool	l;
+
+  if (!(ph->chopstick || ph_right->chopstick))
     return (false);
-  id = (ph[id].chopstick) ? ph[id].chopstick : ph[(id + 1) % nb].chopstick;
-  ph[id].status = THINK;
-  ph[id].chopstick = false;
-  lphilo_eat();
-  lphilo_take_chopstick(&ph[id].mutex);
-  sleep(TIME_THINK);
-  lphilo_release_chopstick(&ph[id].mutex);
-  ph[id].chopstick = true;
+  l = (ph->chopstick) ? true : false;
+  ph->status = THINK;
+  if (l)
+  {
+    ph->chopstick = false;
+    lphilo_take_chopstick(&ph->mutex);
+    lphilo_think();
+    usleep(TIME_THINK);
+    lphilo_release_chopstick(&ph->mutex);
+    ph->chopstick = true;
+  }
+  else
+  {
+    ph_right->chopstick = false;
+    lphilo_take_chopstick(&ph_right->mutex);
+    lphilo_think();
+    usleep(TIME_THINK);
+    lphilo_release_chopstick(&ph_right->mutex);
+    ph_right->chopstick = true;
+  }
   return (true);
 }
 
-bool    rest(size_t id)
-{
-  if (!(ph[id].status == EAT))
-    return (false);
-  ph[id].status = REST;
-  sleep(TIME_EAT);
-    return (true);
-}
+// bool    rest(t_philo *ph)
+// {
+//   if (!(ph->status == EAT))
+//     return (false);
+//   ph->status = REST;
+//   usleep(TIME_EAT);
+//     return (true);
+// }
 
-bool    getArgs(int *p, int *e, char **av, int ac)
+bool    getArgs(size_t *p, size_t *e, char **av, int ac)
 {
   int     i;
 
@@ -83,43 +98,75 @@ bool    getArgs(int *p, int *e, char **av, int ac)
 void    *work(void *data)
 {
   t_philo *philo;
+  size_t  id;
 
   philo = data;
+  id = philo->id + 1;
+  if (id >= nb)
+    id = 0;
   while (philo->rice)
   {
-    if (!eat(philo->id))
-    if (!think(philo->id))
-    rest(philo->id);
+    // think(philo, &ph[id]);
+    eat(philo, &ph[id]);
+      // if (!think(philo))
+      //   rest(philo);
   }
+  philo->active = false;
   return (NULL);
 }
 
 bool    initPh(size_t nb, size_t max)
 {
   size_t  i;
-  void    *res;
+  pthread_attr_t attr;
 
   i = 0;
+  pthread_attr_init(&attr);
+  pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
   while (i < nb)
   {
     ph[i].status = REST;
     ph[i].rice = max;
     ph[i].chopstick = true;
-    pthread_mutex_init(&ph[i].mutex, NULL);
-    pthread_create(&ph[i].id, NULL, &work, &ph[i]);
-    pthread_join(ph[i].id, &res);
+    ph[i].id = i;
     ++i;
   }
+  i = 0;
+  while (i < nb)
+    pthread_mutex_init(&ph[i++].mutex, NULL);
+  i = 0;
+  while (i < nb)
+  {
+    ph[i].active = true;
+    pthread_create(&ph[i].thread, &attr, &work, &ph[i]);
+    ++i;
+  }
+  i = 0;
+  while (i < nb)
+    pthread_join(ph[i++].thread, NULL);
   return (false);
 }
 
 int     main(int ac, char **av)
 {
+  size_t		i;
+
   R_CUSTOM(!getArgs(&nb, &max, av, ac), printf(USAGE));
   RCFStartup(ac, av);
   if (!(ph = malloc(sizeof(t_philo) * nb + 1)))
     return (1);
   initPh(nb, max);
+  check_thread:
+  i = 0;
+  while (i < nb)
+  {
+    if (ph[i].active == true)
+    {
+      usleep(200);
+      goto check_thread;
+    }
+    ++i;
+  }
   free(ph);
   RCFCleanup();
   return (0);
