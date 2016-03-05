@@ -5,7 +5,7 @@
 ** Login	wery_a
 **
 ** Started on	Mon Feb 29 14:51:28 2016 Adrien WERY
-** Last update	Sat Mar 05 23:08:29 2016 Adrien WERY
+** Last update	Sat Mar 05 23:26:30 2016 Nicolas Constanty
 */
 
 #include "philo.h"
@@ -90,10 +90,7 @@ void		*work(void *data)
 bool			initPh(size_t nb, size_t max)
 {
   size_t		i;
-  pthread_attr_t	attr;
 
-  pthread_attr_init(&attr);
-  pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
   i = 0;
   while (i < nb)
   {
@@ -107,7 +104,7 @@ bool			initPh(size_t nb, size_t max)
   i = 0;
   while (i < nb)
   {
-    pthread_create(&ph[i].thread, &attr, &work, &ph[i]);
+    pthread_create(&ph[i].thread, NULL, &work, &ph[i]);
     ++i;
   }
   i = 0;

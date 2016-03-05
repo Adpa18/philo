@@ -5,7 +5,7 @@
 ** Login	wery_a
 **
 ** Started on	Mon Feb 29 14:51:28 2016 Adrien WERY
-** Last update	Sat Mar 05 23:08:05 2016 Adrien WERY
+** Last update	Sat Mar 05 23:26:15 2016 Nicolas Constanty
 */
 
 #include "philo.h"
@@ -39,24 +39,11 @@ bool		getArgs(size_t *p, size_t *e, char **av, int ac)
 
 int		main(int ac, char **av)
 {
-  size_t	i;
-
   R_CUSTOM(!getArgs(&nb, &max, av, ac), printf(USAGE));
   RCFStartup(ac, av);
   R_CUSTOM(!(ph = malloc(sizeof(t_philo) * nb + 1)), 1);
   R_CUSTOM(!(mutexes = malloc(sizeof(pthread_mutex_t) * nb + 1)), 1);
   initPh(nb, max);
-  check_thread:
-  i = 0;
-  while (i < nb)
-  {
-    if (ph[i].active == true)
-    {
-      sleep(1);
-      goto check_thread;
-    }
-    ++i;
-  }
   free(ph);
   RCFCleanup();
   return (0);
