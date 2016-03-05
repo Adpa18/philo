@@ -5,15 +5,13 @@
 ** Login	wery_a
 **
 ** Started on	Mon Feb 29 14:43:09 2016 Adrien WERY
-** Last update	Sun Mar 06 00:10:44 2016 Adrien WERY
+** Last update	Sun Mar 06 00:21:32 2016 Adrien WERY
 */
 
 #ifndef PHILO_H_
 # define PHILO_H_
 
 # include <pthread.h>
-# include <stdio.h>
-# include <time.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <string.h>
