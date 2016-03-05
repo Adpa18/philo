@@ -5,7 +5,7 @@
 ** Login	wery_a
 **
 ** Started on	Sat Mar 05 23:28:43 2016 Adrien WERY
-** Last update	Sat Mar 05 23:29:04 2016 Adrien WERY
+** Last update	Sat Mar 05 23:31:13 2016 Nicolas Constanty
 */
 
 #include "philo.h"
@@ -74,7 +74,6 @@ void		*work(void *data)
   size_t	id;
 
   philo = data;
-  philo->active = true;
   id = philo->id + 1;
   if (id >= nb)
     id = 0;
@@ -83,7 +82,6 @@ void		*work(void *data)
       think(philo, &ph[id]);
       eat(philo, &ph[id]);
   }
-  philo->active = false;
   return (NULL);
 }
 
