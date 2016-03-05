@@ -14,7 +14,8 @@ RM		=	rm -rf
 
 NAME	=	philo
 
-SRC		= 	main.c
+SRC		= 	main.c \
+			philo.c
 
 CFLAGS	=	-W -Wall -Wextra -Werror #-ansi -pedantic -D_REENTRANT -static
 
