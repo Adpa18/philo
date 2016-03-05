@@ -4,8 +4,8 @@
 ** Made by	Adrien WERY
 ** Login	wery_a
 **
-** Started on	Mon Feb 29 14:51:28 2016 Adrien WERY
-** Last update	Sat Mar 05 23:26:15 2016 Nicolas Constanty
+** Started on	Sat Mar 05 23:28:35 2016 Adrien WERY
+** Last update	Sat Mar 05 23:29:12 2016 Adrien WERY
 */
 
 #include "philo.h"
