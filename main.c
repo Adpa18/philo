@@ -5,30 +5,34 @@
 ** Login	wery_a
 **
 ** Started on	Sat Mar 05 23:28:35 2016 Adrien WERY
-** Last update	Sun Mar 06 00:08:33 2016 Adrien WERY
+** Last update	Sun Mar 06 00:12:41 2016 Adrien WERY
 */
 
 #include "philo.h"
 
-bool		getArgs(size_t *p, size_t *e, char **av, int ac)
+bool		getArgs(size_t *p, size_t *e, char **av, size_t ac)
 {
-  int		i;
+  size_t	i;
+  int	    pp;
+  int	    ee;
 
-  *p = 0;
-  *e = 0;
+  pp = 0;
+  ee = 0;
   i = 1;
   while (i < ac)
   {
     if (!strcmp(av[i], "-p") && av[i + 1])
-      *p = atoi(av[i + 1]);
+      pp = atoi(av[i + 1]);
     else if (!strcmp(av[i], "-e") && av[i + 1])
-      *e = atoi(av[i + 1]);
+      ee = atoi(av[i + 1]);
     else
       return (false);
     i += 2;
   }
-  if (*p < 2 || *e < 1)
+  if (pp < 2 || ee < 1)
     return (false);
+  *p = pp;
+  *e = ee;
   return (true);
 }
 

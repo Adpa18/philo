@@ -5,7 +5,7 @@
 ** Login	wery_a
 **
 ** Started on	Mon Feb 29 14:43:09 2016 Adrien WERY
-** Last update	Sun Mar 06 00:06:30 2016 Adrien WERY
+** Last update	Sun Mar 06 00:10:44 2016 Adrien WERY
 */
 
 #ifndef PHILO_H_
