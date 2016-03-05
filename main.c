@@ -5,7 +5,7 @@
 ** Login	wery_a
 **
 ** Started on	Sat Mar 05 23:28:35 2016 Adrien WERY
-** Last update	Sun Mar 06 00:21:48 2016 Adrien WERY
+** Last update	Sun Mar 06 00:23:27 2016 Adrien WERY
 */
 
 #include "philo.h"
@@ -38,15 +38,12 @@ bool		getArgs(size_t *p, size_t *e, char **av, size_t ac)
 
 int		main(int ac, char **av)
 {
-  t_philo		*ph;
   size_t		nb;
   size_t		max;
 
   R_CUSTOM(!getArgs(&nb, &max, av, ac), write(1, USAGE, 61));
   RCFStartup(ac, av);
-  R_CUSTOM(!(ph = malloc(sizeof(t_philo) * nb + 1)), 1);
-  initPh(ph, nb, max);
-  free(ph);
+  initPh(nb, max);
   RCFCleanup();
   return (0);
 }

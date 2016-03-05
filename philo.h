@@ -5,7 +5,7 @@
 ** Login	wery_a
 **
 ** Started on	Mon Feb 29 14:43:09 2016 Adrien WERY
-** Last update	Sun Mar 06 00:21:32 2016 Adrien WERY
+** Last update	Sun Mar 06 00:23:45 2016 Adrien WERY
 */
 
 #ifndef PHILO_H_
@@ -35,6 +35,6 @@ typedef             struct s_philo
     void            *next;
 }                   t_philo;
 
-bool		initPh(t_philo *ph, size_t nb, size_t max);
+bool		initPh(size_t nb, size_t max);
 
 #endif /* !PHILO_H_ */

@@ -5,7 +5,7 @@
 ** Login	wery_a
 **
 ** Started on	Sat Mar 05 23:28:43 2016 Adrien WERY
-** Last update	Sun Mar 06 00:14:18 2016 Adrien WERY
+** Last update	Sun Mar 06 00:24:01 2016 Adrien WERY
 */
 
 #include "philo.h"
@@ -76,8 +76,9 @@ void		*work(void *data)
   return (NULL);
 }
 
-bool			initPh(t_philo *ph, size_t nb, size_t max)
+bool			initPh(size_t nb, size_t max)
 {
+  t_philo     ph[nb];
   size_t		i;
 
   i = 0;
