@@ -5,7 +5,7 @@
 ** Login	wery_a
 **
 ** Started on	Mon Feb 29 14:51:28 2016 Adrien WERY
-** Last update	Sat Mar 05 21:07:00 2016 Nicolas Constanty
+** Last update	Sat Mar 05 21:15:10 2016 Nicolas Constanty
 */
 
 #include <stdio.h>
@@ -20,27 +20,21 @@ bool    eat(t_philo *ph, t_philo *ph_right)
 {
   if (!(ph->chopstick && ph_right->chopstick))
     return (false);
-  ph->status = EAT;
   lphilo_eat();
   ph->chopstick = false;
   pthread_mutex_lock(&mutexes[ph->id]);
   lphilo_take_chopstick(&mutexes[ph->id]);
-
   ph_right->chopstick = false;
   pthread_mutex_lock(&mutexes[ph_right->id]);
   lphilo_take_chopstick(&mutexes[ph_right->id]);
-
   usleep(TIME_EAT);
   lphilo_release_chopstick(&mutexes[ph->id]);
   pthread_mutex_unlock(&mutexes[ph->id]);
   ph->chopstick = true;
-
   lphilo_release_chopstick(&mutexes[ph_right->id]);
   pthread_mutex_unlock(&mutexes[ph_right->id]);
   ph_right->chopstick = true;
   --ph->rice;
-
-  ph->status = REST;
   lphilo_sleep();
   usleep(TIME_EAT);
   return (true);
@@ -48,13 +42,9 @@ bool    eat(t_philo *ph, t_philo *ph_right)
 
 bool    think(t_philo *ph, t_philo *ph_right)
 {
-  bool	l;
-
   if (!(ph->chopstick || ph_right->chopstick))
     return (false);
-  l = (ph->chopstick) ? true : false;
-  ph->status = THINK;
-  if (l)
+  if (ph->chopstick)
   {
     ph->chopstick = false;
     pthread_mutex_lock(&mutexes[ph->id]);
@@ -116,6 +106,7 @@ void    *work(void *data)
   size_t  id;
 
   philo = data;
+  philo->active = true;
   id = philo->id + 1;
   if (id >= nb)
     id = 0;
@@ -133,16 +124,14 @@ bool    initPh(size_t nb, size_t max)
   size_t  i;
   pthread_attr_t attr;
 
-  i = 0;
   pthread_attr_init(&attr);
   pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
+  i = 0;
   while (i < nb)
   {
-    ph[i].status = REST;
     ph[i].rice = max;
-    ph[i].chopstick = true;
     ph[i].id = i;
-    ++i;
+    ph[i++].chopstick = true;
   }
   i = 0;
   while (i < nb)
@@ -150,7 +139,6 @@ bool    initPh(size_t nb, size_t max)
   i = 0;
   while (i < nb)
   {
-    ph[i].active = true;
     pthread_create(&ph[i].thread, &attr, &work, &ph[i]);
     ++i;
   }
