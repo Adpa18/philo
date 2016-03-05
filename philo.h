@@ -5,7 +5,7 @@
 ** Login	wery_a
 **
 ** Started on	Mon Feb 29 14:43:09 2016 Adrien WERY
-** Last update	Sat Mar 05 22:45:39 2016 Adrien WERY
+** Last update	Sat Mar 05 23:08:28 2016 Adrien WERY
 */
 
 #ifndef PHILO_H_
@@ -20,21 +20,13 @@
 # include "extern.h"
 
 # define USAGE "./philo -p [numbers of philosophers] -e [max eat occurence]\n"
-# define TIME_THINK 10000
-# define TIME_EAT   10000
-# define NB_RICE    10
+# define TIME_THINK 1000
+# define TIME_EAT   1000
 
 # define R_CUSTOM(x, y) if (x) {return (y);}
 
 typedef __SIZE_TYPE__ size_t;
 typedef enum { false, true } bool;
-
-// enum state
-// {
-//     EAT,
-//     THINK,
-//     REST
-// };
 
 typedef             struct s_philo
 {

@@ -5,10 +5,9 @@
 ** Login	wery_a
 **
 ** Started on	Mon Feb 29 14:51:28 2016 Adrien WERY
-** Last update	Sat Mar 05 22:48:08 2016 Adrien WERY
+** Last update	Sat Mar 05 23:08:05 2016 Adrien WERY
 */
 
-#include <stdio.h>
 #include "philo.h"
 
 t_philo		*ph = NULL;

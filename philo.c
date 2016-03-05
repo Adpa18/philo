@@ -5,10 +5,9 @@
 ** Login	wery_a
 **
 ** Started on	Mon Feb 29 14:51:28 2016 Adrien WERY
-** Last update	Sat Mar 05 22:47:37 2016 Adrien WERY
+** Last update	Sat Mar 05 23:08:29 2016 Adrien WERY
 */
 
-#include <stdio.h>
 #include "philo.h"
 
 extern t_philo		*ph;

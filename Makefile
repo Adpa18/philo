@@ -17,7 +17,7 @@ NAME	=	philo
 SRC		= 	main.c \
 			philo.c
 
-CFLAGS	=	-W -Wall -Wextra -Werror #-ansi -pedantic -D_REENTRANT -static
+CFLAGS	=	-W -Wall -Wextra -Werror -D_REENTRANT
 
 LDFLAGS	=	-lpthread -L. -lriceferee
 
