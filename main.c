@@ -5,7 +5,7 @@
 ** Login	wery_a
 **
 ** Started on	Mon Feb 29 14:51:28 2016 Adrien WERY
-** Last update	Sat Mar 05 21:15:10 2016 Nicolas Constanty
+** Last update	Sat Mar 05 21:26:16 2016 Nicolas Constanty
 */
 
 #include <stdio.h>
@@ -103,8 +103,8 @@ void		*work(void *data)
     id = 0;
   while (philo->rice)
   {
-    if (!eat(philo, &ph[id]))
       think(philo, &ph[id]);
+      eat(philo, &ph[id]);
   }
   philo->active = false;
   return (NULL);
