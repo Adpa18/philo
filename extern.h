@@ -1,7 +1,6 @@
 #ifndef __LIBRICEFEREE_EXTERN__
 # define __LIBRICEFEREE_EXTERN__
 
-#include <unistd.h>
 #include <pthread.h>
 
 /*
