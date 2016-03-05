@@ -5,7 +5,7 @@
 ** Login	wery_a
 **
 ** Started on	Sat Mar 05 23:28:35 2016 Adrien WERY
-** Last update	Sun Mar 06 00:06:46 2016 Adrien WERY
+** Last update	Sun Mar 06 00:08:33 2016 Adrien WERY
 */
 
 #include "philo.h"
@@ -27,7 +27,7 @@ bool		getArgs(size_t *p, size_t *e, char **av, int ac)
       return (false);
     i += 2;
   }
-  if (*p < 1 || *e < 1)
+  if (*p < 2 || *e < 1)
     return (false);
   return (true);
 }
