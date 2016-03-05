@@ -11,12 +11,12 @@
 #include <stdio.h>
 #include "philo.h"
 
-t_philo *ph = NULL;
-pthread_mutex_t *mutexes;
-size_t  nb = 0;
-size_t  max = 0;
+t_philo		*ph = NULL;
+pthread_mutex_t	*mutexes;
+size_t		nb = 0;
+size_t		max = 0;
 
-bool    eat(t_philo *ph, t_philo *ph_right)
+bool		eat(t_philo *ph, t_philo *ph_right)
 {
   if (!(ph->chopstick && ph_right->chopstick))
     return (false);
@@ -40,7 +40,7 @@ bool    eat(t_philo *ph, t_philo *ph_right)
   return (true);
 }
 
-bool    think(t_philo *ph, t_philo *ph_right)
+bool		think(t_philo *ph, t_philo *ph_right)
 {
   if (!(ph->chopstick || ph_right->chopstick))
     return (false);
@@ -69,18 +69,9 @@ bool    think(t_philo *ph, t_philo *ph_right)
   return (true);
 }
 
-// bool    rest(t_philo *ph)
-// {
-//   if (!(ph->status == EAT))
-//     return (false);
-//   ph->status = REST;
-//   usleep(TIME_EAT);
-//     return (true);
-// }
-
-bool    getArgs(size_t *p, size_t *e, char **av, int ac)
+bool		getArgs(size_t *p, size_t *e, char **av, int ac)
 {
-  int     i;
+  int		i;
 
   *p = 0;
   *e = 0;
@@ -100,10 +91,10 @@ bool    getArgs(size_t *p, size_t *e, char **av, int ac)
   return (true);
 }
 
-void    *work(void *data)
+void		*work(void *data)
 {
-  t_philo *philo;
-  size_t  id;
+  t_philo	*philo;
+  size_t	id;
 
   philo = data;
   philo->active = true;
@@ -119,10 +110,10 @@ void    *work(void *data)
   return (NULL);
 }
 
-bool    initPh(size_t nb, size_t max)
+bool			initPh(size_t nb, size_t max)
 {
-  size_t  i;
-  pthread_attr_t attr;
+  size_t		i;
+  pthread_attr_t	attr;
 
   pthread_attr_init(&attr);
   pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
@@ -148,9 +139,9 @@ bool    initPh(size_t nb, size_t max)
   return (false);
 }
 
-int     main(int ac, char **av)
+int		main(int ac, char **av)
 {
-  size_t		i;
+  size_t	i;
 
   R_CUSTOM(!getArgs(&nb, &max, av, ac), printf(USAGE));
   RCFStartup(ac, av);
