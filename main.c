@@ -5,7 +5,7 @@
 ** Login	wery_a
 **
 ** Started on	Sat Mar 05 23:28:35 2016 Adrien WERY
-** Last update	Sun Mar 06 00:23:27 2016 Adrien WERY
+** Last update	Sun Mar 06 01:03:17 2016 Nicolas Constanty
 */
 
 #include "philo.h"
