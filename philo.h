@@ -4,8 +4,8 @@
 ** Made by	Adrien WERY
 ** Login	wery_a
 **
-** Started on	Mon Feb 29 14:43:09 2016 Adrien WERY
-** Last update	Mon Mar 07 15:30:16 2016 Adrien WERY
+** Started on	Mon Mar 07 16:40:03 2016 Adrien WERY
+** Last update	Mon Mar 07 16:40:05 2016 Adrien WERY
 */
 
 #ifndef PHILO_H_
@@ -18,8 +18,8 @@
 # include "extern.h"
 
 # define USAGE "./philo -p [numbers of philosophers] -e [max eat occurence]\n"
-# define TIME_THINK 1000
-# define TIME_EAT   1000
+# define TIME_THINK 10
+# define TIME_EAT   10
 
 # define R_CUSTOM(x, y) if (x) {return (y);}
 
