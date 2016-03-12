@@ -5,7 +5,7 @@
 ** Login	wery_a
 **
 ** Started on	Mon Mar 07 16:40:03 2016 Adrien WERY
-** Last update	Tue Mar 08 17:02:10 2016 Adrien WERY
+** Last update	Wed Mar 09 13:50:17 2016 Adrien WERY
 */
 
 #ifndef PHILO_H_
@@ -18,8 +18,6 @@
 # include "extern.h"
 
 # define USAGE "./philo -p [numbers of philosophers] -e [max eat occurence]\n"
-# define TIME_THINK 1000
-# define TIME_EAT   1000
 
 # define R_CUSTOM(x, y) if (x) {return (y);}
 

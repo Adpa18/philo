@@ -5,7 +5,7 @@
 ** Login	wery_a
 **
 ** Started on	Sat Mar 05 23:28:43 2016 Adrien WERY
-** Last update	Tue Mar 08 17:03:02 2016 Adrien WERY
+** Last update	Sat Mar 12 13:59:10 2016 Adrien WERY
 */
 
 #include "philo.h"
@@ -37,15 +37,15 @@ void    think(t_philo *ph)
 
 void		*work(void *data)
 {
-    t_philo	*philo;
+    t_philo	*ph;
 
-    philo = data;
-    while (philo->rice)
+    ph = data;
+    while (ph->rice)
     {
-        if (philo->id % 2 == id)
+        if (ph->id % 2 == id)
             continue;
-        think(philo);
-        eat(philo);
+        think(ph);
+        eat(ph);
         lphilo_sleep();
     }
     ++id;
@@ -62,13 +62,16 @@ bool			initPh(size_t nb, size_t max)
     {
         ph[i].id = i;
         ph[i].rice = max;
-        pthread_mutex_init(&ph[i].mutex, NULL);
-        pthread_create(&ph[i].thread, NULL, &work, &ph[i]);
+        if (pthread_mutex_init(&ph[i].mutex, NULL) != 0)
+            return (false);
+        if (pthread_create(&ph[i].thread, NULL, &work, &ph[i]) != 0)
+            return (false);
         ph[i].next = &ph[(i + 1) % nb];
         ++i;
     }
     i = 0;
     while (i < nb)
-    pthread_join(ph[i++].thread, NULL);
-    return (false);
+        if (pthread_join(ph[i++].thread, NULL) != 0)
+            return (false);
+    return (true);
 }

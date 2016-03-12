@@ -4,7 +4,7 @@ make re
 
 i=0
 
-while [ $i -le 500 ]; do
+while [ $i -le 200 ]; do
     nb_phil="`echo $RANDOM%100+2 | bc`"
     nb_eat="`echo $RANDOM%100+1 | bc`"
     ret="`LD_PRELOAD=./libriceferee.so ./philo -p $nb_phil -e $nb_eat | grep "Inconsistences found: 0"`"
