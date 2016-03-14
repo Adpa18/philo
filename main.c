@@ -5,7 +5,7 @@
 ** Login	wery_a
 **
 ** Started on	Mon Mar 07 16:39:55 2016 Adrien WERY
-** Last update	Sat Mar 12 13:41:18 2016 Adrien WERY
+** Last update	Mon Mar 14 15:58:03 2016 Adrien WERY
 */
 
 #include "philo.h"
@@ -41,7 +41,11 @@ int		main(int ac, char **av)
   size_t		nb;
   size_t		max;
 
-  R_CUSTOM(!getArgs(&nb, &max, av, ac), write(1, USAGE, 61));
+  if (!getArgs(&nb, &max, av, ac))
+  {
+      write(1, USAGE, 61);
+      return (0);
+  }
   RCFStartup(ac, av);
   initPh(nb, max);
   RCFCleanup();
