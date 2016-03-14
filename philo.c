@@ -5,7 +5,7 @@
 ** Login	wery_a
 **
 ** Started on	Sat Mar 05 23:28:43 2016 Adrien WERY
-** Last update	Sat Mar 12 13:59:10 2016 Adrien WERY
+** Last update	Mon Mar 14 15:53:24 2016 Adrien WERY
 */
 
 #include "philo.h"
@@ -54,10 +54,12 @@ void		*work(void *data)
 
 bool			initPh(size_t nb, size_t max)
 {
-    t_philo       ph[nb];
+    t_philo       *ph;
     size_t		i;
 
     i = 0;
+    if (!(ph = malloc(sizeof(t_philo) * nb)))
+        return (false);
     while (i < nb)
     {
         ph[i].id = i;
