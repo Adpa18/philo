@@ -5,7 +5,7 @@
 ** Login	wery_a
 **
 ** Started on	Sat Mar 05 23:28:43 2016 Adrien WERY
-** Last update	Mon Mar 14 15:53:24 2016 Adrien WERY
+** Last update	Mon Apr 11 20:12:07 2016 Adrien WERY
 */
 
 #include "philo.h"
@@ -75,5 +75,6 @@ bool			initPh(size_t nb, size_t max)
     while (i < nb)
         if (pthread_join(ph[i++].thread, NULL) != 0)
             return (false);
+    free(ph);
     return (true);
 }

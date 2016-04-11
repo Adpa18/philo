@@ -19,12 +19,12 @@ SRC		= 	main.c \
 
 CFLAGS	=	-W -Wall -Wextra -Werror -D_REENTRANT -ansi -pedantic
 
-LDFLAGS	=	-lpthread -L. -lriceferee
+LDFLAGS	=	-lpthread
 
 OBJ		=	$(SRC:.c=.o)
 
 $(NAME)	: $(OBJ)
-	$(CC) $(OBJ) $(LDFLAGS)	-o $(NAME)
+	$(CC) libriceferee.so $(OBJ) $(LDFLAGS)	-o $(NAME)
 
 all		:	$(NAME)
 
